@@ -71,7 +71,7 @@ const makeWASocket = require("@whiskeysockets/baileys").default;
           level: 'silent' 
        }), 
      printQRInTerminal: true, 
-     browser: ['Dreaded Active', 'safari', '1.0.0'], 
+     browser: ['Prince Active', 'safari', '1.0.0'], 
      auth: state, 
 qrTimeout: 20000000,
 
