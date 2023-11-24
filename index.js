@@ -53,7 +53,7 @@ const makeWASocket = require("@whiskeysockets/baileys").default;
    const { state, saveCreds } = await useMultiFileAuthState('session'); 
  console.log( 
      color( 
-       figlet.textSync("DREADED  BOT", { 
+       figlet.textSync("PRINCE_M-XIV", { 
          font: "Standard", 
          horizontalLayout: "default", 
          vertivalLayout: "default", 
