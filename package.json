@@ -1,14 +1,18 @@
 {
-  "name": "prince_bot",
-  "version": "1.0.0",
-  "description": "WhatsApp Bot",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "author": "princemaster",
-  "license": "MIT",
   "dependencies": {
-    "@adiwajshing/baileys": "^4.1.4"
+    "@adiwajshing/baileys": "^5.0.0",
+    "@adiwajshing/keyed-db": "^0.2.4",
+"@whiskeysockets/baileys": "^6.0.0",
+    "baileys-bottle": "^2.1.2",
+    "chalk": "^4.1.2",
+    "figlet": "^1.6.0",
+    "@hapi/boom": "^10.0.0",
+    "fs": "^0.0.1-security",
+    "os": "^0.1.2",
+    "performance-now": "^2.1.0",
+    "pino": "^8.14.1",
+    "qrcode-terminal": "^0.12.0",
+    "spinnies": "^0.5.1",
+    "util": "^0.12.5"
   }
 }
