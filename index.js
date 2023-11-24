@@ -1,16 +1,42 @@
 // index.js
-const makeWASocket = require("@whiskeysockets/baileys").default;
-const handleCommand = require('./commands');
 
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@whiskeysockets/baileys");
+const makeWASocket = require("@whiskeysockets/baileys").default;
+const figlet = require('figlet'); // Add this line to import the figlet library
+const {
+  BufferJSON,
+  WA_DEFAULT_EPHEMERAL,
+  generateWAMessageFromContent,
+  proto,
+  generateWAMessageContent,
+  generateWAMessage,
+  prepareWAMessageMedia,
+  areJidsSameUser,
+  getContentType
+} = require("@whiskeysockets/baileys");
 const util = require("util");
-const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
+const {
+  useMultiFileAuthState,
+  jidDecode,
+  makeInMemoryStore,
+  DisconnectReason,
+  fetchLatestBaileysVersion
+} = require("@whiskeysockets/baileys");
 const logger = require("@whiskeysockets/baileys/lib/Utils/logger").default;
 const pino = require("pino");
+const qrcode = require('qrcode-terminal');
 const gp = ["254114018035"];
 const fs = require("fs");
-const spinnies = new (require('spinnies'))();
-const { Boom } = require("@hapi/boom");
+const spinnies = new (require('spinnies'))(); // Add this line to define spinnies
+const {
+  Boom
+} = require("@hapi/boom");
+
+// Import the color, autostatusview, and menu functions from commands.js
+const {
+  color,
+  autostatusview,
+  menu
+} = require('./commands');
 
 global.store = makeInMemoryStore({
   logger: pino().child({
@@ -19,6 +45,7 @@ global.store = makeInMemoryStore({
   })
 });
 
+// Define the smsg function
 function smsg(m, conn) {
   if (!m) return;
   let M = proto.WebMessageInfo;
@@ -34,16 +61,12 @@ function smsg(m, conn) {
   return m;
 }
 
+// Define the main function
 async function main() {
   const { state, saveCreds } = await useMultiFileAuthState('session');
   console.log(
     color(
-      figlet.textSync("PRINCE_M-XIV", {
-        font: "Standard",
-        horizontalLayout: "default",
-        verticalLayout: "default",
-        whitespaceBreak: false,
-      }),
+      figlet.textSync("PRINCE_M-XIV"), // Remove unnecessary parameters here
       "red"
     )
   );
@@ -58,15 +81,11 @@ async function main() {
     qrTimeout: 20000000,
   });
 
+  autostatusview(mokaya); // Attach the autostatusview event listener
+
   mokaya.ev.on('messages.upsert', async chatUpdate => {
-    m = chatUpdate.messages[0];
-    m.chat = m.key.remoteJid;
-    m.fromMe = m.key.fromMe;
-    m.sender = mokaya.decodeJid((m.fromMe && mokaya.user.id) || m.participant || m.key.participant || m.chat);
-
-    const groupMetadata = m.isGroup ? await mokaya.groupMetadata(m.chat).catch((e) => {}) : "";
-    const groupName = m.isGroup ? groupMetadata.subject : "";
-
+    const m = smsg(chatUpdate.messages[0], mokaya);
+    menu(mokaya, m); // Call the menu function
     if (!m.message) return;
   });
 
@@ -95,13 +114,13 @@ async function main() {
       });
     } else if (connection === 'open') {
       spinnies.succeed('start', {
-        text: `Successfully Connected. You have logged in as ${mokaya.user.name}`
+        text: Successfully Connected. You have logged in as ${mokaya.user.name}
       });
       mokaya.sendMessage(mokaya.user.jid, 'Thank you for using Prince_M-XIV.').catch(() => {});
     } else if (connection === 'close') {
       if (lastDisconnect.error.output.statusCode == DisconnectReason.loggedOut) {
         spinnies.fail('start', {
-          text: `Can't connection!`
+          text: Can't connection!
         });
         process.exit(0);
       } else {
