@@ -1,0 +1,14 @@
+{
+  "name": "whatsapp-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "princemaster",
+  "license": "MIT",
+  "dependencies": {
+    "@adiwajshing/baileys": "^4.1.4"
+  }
+}
