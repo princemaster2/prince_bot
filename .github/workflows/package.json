@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "princemaster",
+  "author": "Your Name",
   "license": "MIT",
   "dependencies": {
     "@adiwajshing/baileys": "^4.1.4"
