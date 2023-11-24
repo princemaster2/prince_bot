@@ -66,7 +66,7 @@ const makeWASocket = require("@whiskeysockets/baileys").default;
 
 
 
-   const sock = makeWASocket({  
+   const mokaya = makeWASocket({  
            logger: pino({ 
           level: 'silent' 
        }), 
@@ -81,29 +81,26 @@ qrTimeout: 20000000,
 
 
 
- sock.ev.on('messages.upsert', async chatUpdate => { 
+ mokaya.ev.on('messages.upsert', async chatUpdate => { 
 
            m = chatUpdate.messages[0] 
   m.chat = m.key.remoteJid; 
   m.fromMe = m.key.fromMe; 
-  m.sender = sock.decodeJid((m.fromMe && sock.user.id) || m.participant || m.key.participant || m.chat); 
+  m.sender = mokaya.decodeJid((m.fromMe && mokaya.user.id) || m.participant || m.key.participant || m.chat); 
 
 
-           const groupMetadata = m.isGroup ? await sock.groupMetadata(m.chat).catch((e) => {}) : ""; 
+           const groupMetadata = m.isGroup ? await mokaya.groupMetadata(m.chat).catch((e) => {}) : ""; 
   const groupName = m.isGroup ? groupMetadata.subject : ""; 
 
 
   if (!m.message) return 
-  if (m.chat.endsWith('broadcast')) { 
-          sock.readMessages([m.key]); 
-
-          } 
+  
 
 
 
   }); 
 
-  sock.decodeJid = (jid) => { 
+  mokaya.decodeJid = (jid) => { 
      if (!jid) return jid; 
      if (/:\d+@/gi.test(jid)) { 
        let decode = jidDecode(jid) || {}; 
@@ -113,7 +110,7 @@ qrTimeout: 20000000,
 
 
 
-   sock.ev.on('connection.update', async (update) => { 
+   mokaya.ev.on('connection.update', async (update) => { 
        const { 
           connection, 
           lastDisconnect, 
@@ -130,7 +127,7 @@ qrTimeout: 20000000,
        }) 
       } else if (connection === 'open') { 
           spinnies.succeed('start', { 
-             text: `Successfully Connected. You have logged in as ${sock.user.name}` 
+             text: `Successfully Connected. You have logged in as ${mokaya.user.name}` 
           }) 
        } else if (connection === 'close') { 
           if (lastDisconnect.error.output.statusCode == DisconnectReason.loggedOut) { 
@@ -146,7 +143,7 @@ qrTimeout: 20000000,
     }) 
 
 
-   sock.ev.on('creds.update', saveCreds); 
+   mokaya.ev.on('creds.update', saveCreds); 
 
  }; 
 
