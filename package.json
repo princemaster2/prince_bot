@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "WhatsApp Bot",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
+ "scripts": {
+  "start": "node index.js"
+}
+
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
