@@ -1,4 +1,4 @@
-const { Client, BaileysEventEmitter, Message, LocalAuth, Buttons } = require('@adiwajshing/baileys');
+const { create, Client } = require('@whiskeysockets/baileys');
 const qrcode = require('qrcode-terminal');
 
 // Define the bot's owner and contact information
@@ -8,11 +8,8 @@ const botOwner = {
 };
 
 // Initialize the WhatsApp client
-const client = new Client({
-  auth: new LocalAuth(),
-  puppeteer: true,
-  sessionId: 'YOUR_SESSION_ID' // Replace with your session ID
-});
+const client = create();
+client.connect();
 
 // Function to generate a QR code
 function generateQRCode(data) {
@@ -32,21 +29,16 @@ client.on('open', () => {
 // Handle incoming messages
 client.on('message', async (message) => {
   // Extract message content and sender information
-  const messageText = message.content ? message.content.text : '';
+  const messageText = message.text || '';
   const senderId = message.key.remoteJid;
 
   // Check if the sender is the bot owner
   if (senderId === botOwner.phoneNumber) {
     console.log('Message from bot owner:', messageText);
   } else {
-    // Process message using Google AI (removed as per your request)
+    // Process message (you can add your logic here)
 
     // Send a simple response to the sender
     await client.sendMessage(senderId, 'Hello! This is a response from your WhatsApp bot.');
   }
 });
-
-// Function to process messages using Google AI (removed as per your request)
-
-// Run the WhatsApp client
-client.connect();
