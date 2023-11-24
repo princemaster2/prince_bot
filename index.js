@@ -8,7 +8,7 @@ const botOwner = {
 const client = new Client({
   auth: new LocalAuth(),
   puppeteer: true,
-  sessionId: 'YOUR_SESSION_ID' // Replace with your session ID
+  sessionId: 'YOUR_SESSION_ID' 
 });
 
 client.on('qr', (qr) => {
