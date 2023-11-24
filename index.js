@@ -1,10 +1,22 @@
+const config = require('./config.js');
+
 const makeWASocket = require("@whiskeysockets/baileys").default;
-const { useMultiFileAuthState, makeInMemoryStore, DisconnectReason } = require("@whiskeysockets/baileys");
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@whiskeysockets/baileys");
+const util = require("util");
+const { useMultiFileAuthState, jidDecode, makeInMemoryStore, DisconnectReason, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
+const logger = require("@whiskeysockets/baileys/lib/Utils/logger").default;
 const pino = require("pino");
+const gp = ["254114018035"];
+const fs = require("fs");
 const figlet = require("figlet");
 const chalk = require("chalk");
-const qrcode = require("qrcode-terminal");
-const spinnies = new (require("spinnies"))();
+const os = require("os");
+const speed = require("performance-now");
+const timestampe = speed();
+const dreadedspeed = speed() - timestampe;
+
+const spinnies = new(require('spinnies'))();
+const { Boom } = require("@hapi/boom");
 
 global.store = makeInMemoryStore({
   logger: pino().child({
